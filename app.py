@@ -3,6 +3,7 @@ import os
 import glob
 import json
 import flask
+import BeautifulSoup
 
 app = flask.Flask(__name__)
 base_dir = os.path.dirname(os.path.abspath( __file__ ))
@@ -18,7 +19,7 @@ def read_json_from_basedir(filename):
 def read_contents_from_basedir(filename):
     if not os.path.exists("%s/%s" % (app.root_path, filename)): return None
     with open("%s/%s" % (app.root_path, filename)) as f:
-        return f.read().decode("utf-8")
+        return BeautifulSoup.BeautifulSoup(f.read())
 
 @app.route('/favicon.ico')
 def favicon():
