@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <title>{% if title %}{{title}} - {% endif %}{{ site_name }}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% if site_description %}<meta name="description" content="{{ site_description }}">{% endif %}
+    {% if site_author %}<meta name="author" content="{{ site_author }}">{% endif %}
+
+    <!-- Le styles -->
+    <link href="/static/css/bootstrap.css" rel="stylesheet"/>
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+      .sidebar-nav {
+        padding: 9px 0;
+      }
+    </style>
+    <link href="/static/css/bootstrap-responsive.css" rel="stylesheet"/>
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% include "analytics.html" %}
+  </head>
+
+  <body>
+    <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+      fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="/">{{ site_name }}</a>
+          <div class="nav-collapse collapse">
+	    <ul class="nav pull-right">
+              <!--Facebook -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img width="28" height="28" src="/static/img/f_logo.png"/> Facebook <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li style="padding:10px;"><div class="fb-like" data-send="false" data-width="200"></div></li>
+                </ul>
+              </li> <!-- dropdown -->
+              <!--Twitter -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img width="28" height="28" src="/static/img/twitter-bird-dark-bgs.png"/> Twitter <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                  <li style="padding:10px;"><a href="https://twitter.com/share" class="twitter-share-button" data-lang="ja">ツイート</a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script></li>
+                </ul>
+              </li> <!-- dropdown -->
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+          <div class="well sidebar-nav">
+            <ul class="nav nav-list">
+              <li class="nav-header">一般情報</li>
+	      {% for page in pages %}
+              <li{% if not category_name and page_name==page.name%} class="active"{% endif %}><a href="/{% if page.name!='index' %}{{page.name}}.html{%endif%}">{{page.title}}</a></li>
+	      {% endfor %}
+	      {% for category in categories %}
+              <li class="nav-header">{{ category.title }}</li>
+	      {% for page in category.pages %}
+              <li{% if category_name==category.name and page_name==page.name%} class="active"{%endif%}><a href="/{{category.name}}/{{page.name}}.html">{{page.title}}</a></li>
+	      {% endfor %}
+	      {% endfor %}
+            </ul>
+          </div><!--/.well -->
+        </div><!--/span-->
+        <div class="span9">
+	  {{ contents|safe }}
+
+        </div><!--/span-->
+      </div><!--/row-->
+
+      {% include "footer.html" %}
+
+    </div><!--/.fluid-container-->
+
+  </body>
+</html>
