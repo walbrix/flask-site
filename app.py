@@ -1,6 +1,7 @@
 #!/usr/bin/python
 import os
 import glob
+import datetime
 import json
 import flask
 import BeautifulSoup
@@ -105,4 +106,15 @@ def category_index(category_name):
     return page_with_category(category_name, "index")
 
 if __name__ == '__main__':
+    start = datetime.datetime.now()
+    cnt = 0
+    for file in glob.glob("*.json"):
+        cnt += 1
+        with open(file) as f: json.load(f)
+    for file in glob.glob("*/*.json"):
+        cnt += 1
+        with open(file) as f: json.load(f)
+    end = datetime.datetime.now()
+    print "%d json files, parse time: %s" % (cnt, end - start)
+
     app.run(host='0.0.0.0',debug=True)
