@@ -54,8 +54,9 @@ def page(page_name):
 def index():
     return page("index")
 
-def get_entries(category_name):
+def get_pages_and_entries(category_name):
     entries = []
+    pages = {}
     files = glob.glob(os.path.join(app.root_path, category_name, "*.json"))
     for file in files:
         basename = os.path.splitext(os.path.basename(file))[0]
@@ -64,9 +65,10 @@ def get_entries(category_name):
         with open(file) as f:
             entry_data.update(json.load(f))
         entry_data["page_name"] = basename
+        pages[basename] = entry_data
         if "pubDate" in entry_data: entries.append(entry_data)
     entries.sort(cmp=lambda x,y:cmp(x['pubDate'],y['pubDate']), reverse=True)
-    return entries
+    return pages, entries
 
 @app.route('/<category_name>/<page_name>.html')
 def page_with_category(category_name, page_name):
@@ -83,7 +85,7 @@ def page_with_category(category_name, page_name):
 
 
     if page_name == "index":
-        data["entries"] = get_entries(category_name)
+        data["pages"], data["entries"] = get_pages_and_entries(category_name)
 
     data["page_name"] = page_name
     data["category_name"] = category_name
