@@ -76,10 +76,10 @@
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
               <li class="nav-header">一般情報</li>
-	      {% for page in pages %}
+	      {% for page in sidemenu.pages %}
               <li{% if not category_name and page_name==page.name%} class="active"{% endif %}><a href="/{% if page.name!='index' %}{{page.name}}.html{%endif%}">{{page.title}}</a></li>
 	      {% endfor %}
-	      {% for category in categories %}
+	      {% for category in sidemenu.categories %}
               <li class="nav-header">{{ category.title }}</li>
 	      {% for page in category.pages %}
               <li{% if category_name==category.name and page_name==page.name%} class="active"{%endif%}><a href="/{{category.name}}/{{page.name}}.html">{{page.title}}</a></li>
