@@ -95,9 +95,17 @@ def page_with_category(category_name, page_name):
 
     return flask.render_template(data["template"],**data)
 
+@app.route('/<img_name>.jpg')
+def image_jpg(img_name):
+    return flask.send_file("%s/%s.jpg" % (app.root_path, img_name), "image/jpeg")
+
 @app.route('/<category_name>/<img_name>.png')
-def image_with_category(category_name, img_name):
+def image_png_with_category(category_name, img_name):
     return flask.send_file("%s/%s/%s.png" % (app.root_path, category_name, img_name), "image/png")
+
+@app.route('/<category_name>/<img_name>.jpg')
+def image_jpg_with_category(category_name, img_name):
+    return flask.send_file("%s/%s/%s.jpg" % (app.root_path, category_name, img_name), "image/jpeg")
 
 @app.route('/<category_name>/<page_name>/<img_name>.png')
 def image_with_category2(category_name, page_name, img_name):
